@@ -1,0 +1,11 @@
+metadata:
+  chartname: stable/metallb
+  release:
+    name: metallb
+    namespace: kube-system
+configInline:
+  address-pools:
+  - name: default
+    protocol: layer2
+    addresses:
+    - 10.0.0.230-10.0.0.240

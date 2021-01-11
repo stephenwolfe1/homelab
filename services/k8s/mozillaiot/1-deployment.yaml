@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mozillaiot-gateway
+  namespace: mozillaiot
+  labels:
+    app: mozillaiot-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mozillaiot-gateway
+  template:
+    metadata:
+      labels:
+        app: mozillaiot-gateway
+    spec:
+      securityContext:
+        fsGroup: 997
+      volumes:
+      - name: sys
+        hostPath:
+          path: /sys
+      containers:
+      - name: webthings-gateway
+        image: mozillaiot/gateway:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 8080
+        env:
+        - name: TZ
+          value: "America/Los_Angeles"
+        volumeMounts:
+        - mountPath: /sys
+          name: sys
