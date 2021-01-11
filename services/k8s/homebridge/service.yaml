@@ -1,0 +1,26 @@
+---
+# Source: homebridge/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: homebridge
+  labels:
+    helm.sh/chart: homebridge-1.0.2
+    app.kubernetes.io/name: homebridge
+    app.kubernetes.io/instance: homebridge
+    app.kubernetes.io/version: "3.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 51826
+      targetPort: homebridge
+      protocol: TCP
+      name: homebridge
+    - port: 8080
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: homebridge
+    app.kubernetes.io/instance: homebridge

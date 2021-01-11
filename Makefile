@@ -53,6 +53,24 @@ all-services: ## display all services
 services: ## display services to be run
 	@echo -e "\n\tHelm Services: ${HELM_SERVICES}\n\tK8S Services: ${K8S_SERVICES}\n"
 
+<<<<<<< HEAD
+=======
+.PHONY: template
+template: ## runs install on ${HELM_SERVICES} and ${K8S_SERVICES}
+	@set -e; \
+	mkdir -p templates; \
+	for SERVICE in ${HELM_SERVICES}; do \
+		echo "*********************************************************************************"; \
+		echo "  Running helm template for contents of ${HELM_BASE}/$$SERVICE"; \
+		echo -e "*********************************************************************************\n\n\n"; \
+		${METADATA}; \
+		helm template $${releaseName} $${chartname} -f ${HELM_BASE}/$$SERVICE/values.yaml --namespace $${releaseNamespace} --output-dir ./templates; \
+		echo -e "\n\n\n*********************************************************************************"; \
+		echo "  Finished running helm install for $$SERVICE"; \
+		echo -e "*********************************************************************************\n\n\n"; \
+	done;
+
+>>>>>>> Initial kube service setup
 .PHONY: install
 install: ## runs install on ${HELM_SERVICES} and ${K8S_SERVICES}
 	@set -e; \
@@ -93,8 +111,12 @@ delete: ## runs helm delete on ${HELM_SERVICES} and ${K8S_SERVICES}
 		echo "*********************************************************************************"; \
 		echo "  Running kubectl delete for contents of ${K8S_BASE}/$$SERVICE"; \
 		echo -e "*********************************************************************************\n\n\n"; \
+<<<<<<< HEAD
 		${METADATA}; \
 		helm delete $${releaseName} --namespace $${releaseNamespace}; \
+=======
+		kubectl delete -f ${K8S_BASE}/$$SERVICE/; \
+>>>>>>> Initial kube service setup
 		echo -e "\n\n\n*********************************************************************************"; \
 		echo "  Finished running kubectl delete for $$SERVICE"; \
 		echo -e "*********************************************************************************\n\n\n"; \

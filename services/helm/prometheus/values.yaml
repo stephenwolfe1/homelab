@@ -1,0 +1,26 @@
+metadata:
+  chartname: prometheus-community/kube-prometheus-stack
+  release:
+    name: prometheus-stack
+    namespace: prometheus
+
+kubeStateMetrics:
+  enabled: false
+
+#Not working yet
+kube-state-metrics:
+  image:
+    repository: k8s.gcr.io/kube-state-metrics/kube-state-metrics
+    tag: v2.0.0-beta
+
+grafana:
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.wolfe.int
+
+prometheus:
+  ingress:
+    enabled: true
+    hosts:
+      - prometheus.wolfe.int
