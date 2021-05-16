@@ -1,0 +1,43 @@
+metadata:
+  chartname: k8s-at-home/homebridge
+  release:
+    name: homebridge
+    namespace: homebridge
+
+# Default values for homebridge.
+replicaCount: 1
+
+image:
+  repository: oznu/homebridge
+  tag: latest
+  pullPolicy: Always
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+env:
+  HOMEBRIDGE_CONFIG_UI: 1
+  HOMEBRIDGE_CONFIG_UI_PORT: 8080
+  TZ: America/Los_Angeles
+  PGID: 1000
+  PUID: 1000
+
+service:
+  port:
+    port: 8080
+
+hostNetwork: true
+
+ingress:
+  enabled: false
+  hosts:
+    - homebridge.wolfe.int
+
+persistence:
+  config:
+    enabled: true
+    storageClass: local-path
+    accessMode: ReadWriteOnce
+    size: 2Gi
+    skipuninstall: true

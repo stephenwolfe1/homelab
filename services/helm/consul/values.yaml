@@ -1,0 +1,32 @@
+metadata:
+  chartname: hashicorp/consul
+  release:
+    name: consul
+    namespace: consul
+
+global:
+  enabled: true
+  name: consul
+  datacenter: vault
+  image: "consul:1.9.5"
+  imageK8S: hashicorp/consul-k8s:0.25.0
+  gossip_encryption:
+    secret_name: consul-gossip-encryption-key
+    secret_key: key
+
+server:
+  replicas: 1
+  bootstrapExpect: 1
+  storage: 1Gi
+
+  affinity: |
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              app: {{ template "consul.name" . }}
+              release: "{{ .Release.Name }}"
+              component: server
+          topologyKey: kubernetes.io/hostname

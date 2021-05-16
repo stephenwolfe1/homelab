@@ -1,0 +1,6 @@
+metadata:
+  chartname: jetstack/cert-manager
+  release:
+    name: cert-manager
+    namespace: cert-manager
+installCRDs: true
