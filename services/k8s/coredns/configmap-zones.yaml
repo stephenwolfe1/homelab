@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-zones
+  namespace: coredns
+data:
+  db.wolfe.int: |
+    $TTL  30M
+    @   IN  SOA   ns1.wolfe.int.  wolfe.int. (
+                    2019041900  ; Serial
+                    4H          ; Refresh
+                    1H          ; Retry
+                    7D          ; Expire
+                    4H )        ; Negative Cache TTL
+        IN  NS  ns1
+
+    ns1                       IN  A      10.0.0.201
+    raspberrypi1.wolfe.int.   IN  A      10.0.0.201
+    raspberrypi2.wolfe.int.   IN  A      10.0.0.202
+    ingress.wolfe.int.        IN  A      10.0.0.201
+    ingress.wolfe.int.        IN  A      10.0.0.202
+    homebridge.wolfe.int.     IN  CNAME  ingress.wolfe.int.
+    nginx-test.wolfe.int.     IN  CNAME  ingress.wolfe.int.
