@@ -76,7 +76,7 @@ install: ## runs install on ${HELM_SERVICES} and ${K8S_SERVICES}
 		echo "  Running helm install for contents of ${HELM_BASE}/$$SERVICE"; \
 		echo -e "*********************************************************************************\n\n\n"; \
 		${METADATA}; \
-		helm upgrade $${releaseName} $${chartname} --install -f ${HELM_BASE}/$$SERVICE/values.yaml --namespace $${releaseNamespace}; \
+		helm upgrade $${releaseName} $${chartname} --install -f ${HELM_BASE}/$$SERVICE/values.yaml --namespace $${releaseNamespace} --create-namespace; \
 		echo -e "\n\n\n*********************************************************************************"; \
 		echo "  Finished running helm install for $$SERVICE"; \
 		echo -e "*********************************************************************************\n\n\n"; \

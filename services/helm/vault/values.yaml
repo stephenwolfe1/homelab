@@ -15,42 +15,24 @@ server:
   image:
     repository: "vault"
     tag: "1.7.0"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
 
   dataStorage:
     size: 1Gi
 
   ingress:
     enabled: true
-    annotations: {}
     hosts:
       - host: vault.wolfe.int
         paths: []
-    ## Extra paths to prepend to the host configuration. This is useful when working with annotation based services.
-    extraPaths: []
 
   authDelegator:
     enabled: false
-
-  affinity: |
-    podAntiAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 100
-        podAffinityTerm:
-          labelSelector:
-            matchLabels:
-              app.kubernetes.io/name: {{ template "vault.name" . }}
-              app.kubernetes.io/instance: "{{ .Release.Name }}"
-              component: server
-          topologyKey: kubernetes.io/hostname
 
   ha:
     enabled: true
     replicas: 3
 
-    # Set the api_addr configuration for Vault HA
-    # See https://www.vaultproject.io/docs/configuration#api_addr
-    # If set to null, this will be set to the Pod IP Address
     apiAddr: null
 
     config: |
@@ -69,29 +51,3 @@ server:
       }
 
       service_registration "kubernetes" {}
-
-# Vault UI
-ui:
-  # True if you want to create a Service entry for the Vault UI.
-  #
-  # serviceType can be used to control the type of service created. For
-  # example, setting this to "LoadBalancer" will create an external load
-  # balancer (for supported K8S installations) to access the UI.
-  enabled: false
-  publishNotReadyAddresses: true
-  # The service should only contain selectors for active Vault pod
-  activeVaultPodOnly: false
-  serviceType: "ClusterIP"
-  serviceNodePort: null
-  externalPort: 8200
-
-  # loadBalancerSourceRanges:
-  #   - 10.0.0.0/16
-  #   - 1.78.23.3/32
-
-  # loadBalancerIP:
-
-  # Extra annotations to attach to the ui service
-  # This can either be YAML or a YAML-formatted multi-line templated string map
-  # of the annotations to apply to the ui service
-  annotations: {}
