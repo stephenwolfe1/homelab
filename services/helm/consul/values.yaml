@@ -15,18 +15,18 @@ global:
     secret_key: key
 
 server:
-  replicas: 1
-  bootstrapExpect: 1
   storage: 1Gi
 
-  affinity: |
-    podAntiAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 100
-        podAffinityTerm:
-          labelSelector:
-            matchLabels:
-              app: {{ template "consul.name" . }}
-              release: "{{ .Release.Name }}"
-              component: server
-          topologyKey: kubernetes.io/hostname
+ui:
+  ingress:
+    enabled: true
+    hosts:
+      - host: consul.wolfe.int
+        paths:
+          - /
+
+client:
+  enabled: false
+
+dns:
+  enabled: false

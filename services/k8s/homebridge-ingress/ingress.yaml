@@ -15,6 +15,3 @@ spec:
             name: homebridge
             port:
               number: 8080
-      - backend:
-          serviceName: homebridge
-          servicePort: 8080
